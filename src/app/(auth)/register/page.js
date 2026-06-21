@@ -1,10 +1,8 @@
 'use client';
 
 import { Button, Input } from '@heroui/react';
-
 import Link from 'next/link';
 import { User, Mail, Lock, ArrowRight } from 'lucide-react';
-// import toast from 'react-hot-toast';
 import { signUp } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
@@ -14,30 +12,25 @@ export default function Register() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        // console.log(e.currentTarget);
 
-        const formData = new FormData(e.currentTarget)
-        // console.log(formData);
-
+        const formData = new FormData(e.currentTarget);
         const registerData = Object.fromEntries(formData.entries());
 
         const { data, error } = await signUp.email({
-            ...registerData
-        })
+            ...registerData,
+            plan: "free"
+        });
 
         if (error) {
-            toast.error("Registration failed")
+            toast.error("Registration failed");
             return;
         }
-        if(data)
-        {
-            toast.success("Registration  is successfully!");
-            router.push("/")
+
+        if (data) {
+            toast.success("Registration is successfully!");
+            router.push("/");
         }
-
-
-    }
-
+    };
 
     return (
         <div className="min-h-[80vh] flex flex-col bg-slate-50 py-12">
@@ -50,18 +43,14 @@ export default function Register() {
                             <h2 className="text-3xl font-black text-slate-900 tracking-tight">
                                 Join <span className="text-blue-600">Mentora</span>
                             </h2>
-                            <p className="text-slate-500 font-medium">Create your account to start learning</p>
+                            <p className="text-slate-500 font-medium">
+                                Create your account to start learning
+                            </p>
                         </div>
 
-                        <form
-                            className="space-y-6"
-                            onSubmit={handleRegister}
-                        >
+                        <form className="space-y-6" onSubmit={handleRegister}>
                             <div className="space-y-2">
-                                <label
-                                    htmlFor="name"
-                                    className="text-sm font-bold text-slate-700 ml-1"
-                                >
+                                <label className="text-sm font-bold text-slate-700 ml-1">
                                     Full Name
                                 </label>
                                 <Input
@@ -75,10 +64,7 @@ export default function Register() {
                             </div>
 
                             <div className="space-y-2">
-                                <label
-                                    htmlFor="email"
-                                    className="text-sm font-bold text-slate-700 ml-1"
-                                >
+                                <label className="text-sm font-bold text-slate-700 ml-1">
                                     Email Address
                                 </label>
                                 <Input
@@ -93,10 +79,7 @@ export default function Register() {
                             </div>
 
                             <div className="space-y-2">
-                                <label
-                                    htmlFor="image"
-                                    className="text-sm font-bold text-slate-700 ml-1"
-                                >
+                                <label className="text-sm font-bold text-slate-700 ml-1">
                                     Profile Image URL
                                 </label>
                                 <Input
@@ -110,10 +93,7 @@ export default function Register() {
                             </div>
 
                             <div className="space-y-2">
-                                <label
-                                    htmlFor="password"
-                                    className="text-sm font-bold text-slate-700 ml-1"
-                                >
+                                <label className="text-sm font-bold text-slate-700 ml-1">
                                     Password
                                 </label>
                                 <Input
@@ -127,12 +107,54 @@ export default function Register() {
                                 />
                             </div>
 
+                            {/* Role Select */}
+                            <div className="space-y-2">
+                                <label className="text-sm font-bold text-slate-700 ml-1">
+                                    Sign Up As
+                                </label>
+
+                                <div className="relative">
+                                    <select
+                                        name="role"
+                                        required
+                                        defaultValue=""
+                                        className="w-full h-14 px-4 pr-10 rounded-2xl border-2 border-slate-200 hover:border-blue-600/50 focus:border-blue-600 focus:outline-none transition-all duration-300 bg-white text-slate-700 appearance-none cursor-pointer"
+                                    >
+                                        <option value="" disabled>
+                                            Select your role
+                                        </option>
+
+                                        {/* CHANGED HERE */}
+                                        <option value="user"> User</option>
+
+                                        <option value="vender"> vender</option>
+                                    </select>
+
+                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="18"
+                                            height="18"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <path d="m6 9 6 6 6-6" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
                             <Button
                                 color="primary"
                                 type="submit"
                                 className="w-full h-14 text-lg font-black rounded-2xl shadow-xl shadow-blue-600/20 group"
                             >
-                                Create Account <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                Create Account
+                                <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                             </Button>
                         </form>
 
