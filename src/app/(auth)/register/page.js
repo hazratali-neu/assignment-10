@@ -38,6 +38,7 @@ export default function Register() {
 
     }
 
+
     return (
         <div className="min-h-[80vh] flex flex-col bg-slate-50 py-12">
             <div className="grow flex items-center justify-center p-4">
