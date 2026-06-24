@@ -16,7 +16,7 @@ import {
     Settings, 
     Users, 
     Megaphone,
-    TrendingUp // Revenue Overview এর জন্য নতুন আইকন যোগ করা হয়েছে
+    TrendingUp 
 } from "lucide-react";
 import { useSession } from "@/lib/auth-client";
 
@@ -31,13 +31,13 @@ const navItems = {
         { label: "Add Ticket", href: "/dashboard/vender/add-ticket", icon: PlusCircle },
         { label: "My Added Tickets", href: "/dashboard/vender/my-tickets", icon: Ticket },
         { label: "Requested Bookings", href: "/dashboard/vender/bookings", icon: ClipboardList },
-        { label: "Revenue Overview", href: "/dashboard/vendor/revenue", icon: TrendingUp }, // সিনট্যাক্স এরর এবং আইকন ঠিক করা হয়েছে
+        { label: "Revenue Overview", href: "/dashboard/vender/revenue", icon: TrendingUp }, // টাইপো ফিক্স করা হয়েছে (vendor -> vender)
     ],
     admin: [
-        { label: "Admin Profile", href: "/dashboard/profile", icon: Home },
-        { label: "Manage Tickets", href: "/dashboard/manage-tickets", icon: Settings },
-        { label: "Manage Users", href: "/dashboard/manage-users", icon: Users },
-        { label: "Advertise Tickets", href: "/dashboard/advertise", icon: Megaphone },
+        { label: "Admin Profile", href: "/dashboard/admin/profile", icon: Home }, // রাউট ফিক্স করা হয়েছে যাতে ডাইনামিক থাকে
+        { label: "Manage Tickets", href: "/dashboard/admin/manage-tickets", icon: Settings },
+        { label: "Manage Users", href: "/dashboard/admin/manage-users", icon: Users },
+        { label: "Advertise Tickets", href: "/dashboard/admin/advertise", icon: Megaphone },
     ],
 };
 
@@ -51,6 +51,7 @@ export default function DashboardSidebar() {
     }
 
     const role = session?.user?.role;
+    // যদি রোল 'vender' বা 'user' বা 'admin' এর বাইরে কিছু আসে, ব্যাকআপ হিসেবে খালি অ্যারে
     const items = role ? navItems[role] : [];
 
     return (
@@ -115,5 +116,5 @@ export default function DashboardSidebar() {
                 </button>
             </aside>
         </>
-    );
+    ); 
 }
