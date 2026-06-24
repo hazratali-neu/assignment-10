@@ -36,6 +36,7 @@ export default function Navbar() {
       fetchOptions: {
         onSuccess: () => {
           router.push("/login");
+          setOpen(false);
         },
       },
     });
@@ -48,38 +49,42 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="border-b bg-white">
+    // স্টিকি ডার্ক গ্লাস-মরফিজম ইফেক্ট (Sticky Premium Dark Background)
+    <nav className="sticky top-0 z-50 border-b border-slate-900/60 bg-slate-950 backdrop-blur-md text-slate-100">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
 
         {/* LOGO */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-600">
-            <BsFillBusFrontFill className="text-white" />
+        <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-90">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-cyan-600 shadow-lg shadow-cyan-500/20">
+            <BsFillBusFrontFill className="text-xl text-white" />
           </div>
 
           <div>
-            <h1 className="text-xl font-bold">
-              <span className="text-cyan-600">Ticket</span>
-              <span className="text-gray-800">Bari</span>
+            <h1 className="text-xl font-extrabold tracking-tight">
+              <span className="text-cyan-400">Ticket</span>
+              <span className="text-slate-100">Bari</span>
             </h1>
           </div>
         </Link>
 
         {/* DESKTOP NAV */}
-        <div className="hidden items-center gap-2 md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`rounded-lg px-3 py-2 text-sm font-medium ${
-                pathname === link.href
-                  ? "bg-cyan-50 text-cyan-600"
-                  : "text-gray-600 hover:bg-gray-100"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
+        <div className="hidden items-center gap-1 md:flex">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200 ${
+                  isActive
+                    ? "bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20"
+                    : "text-slate-400 hover:bg-slate-800/60 hover:text-slate-100"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
 
         {/* RIGHT SIDE */}
@@ -87,64 +92,63 @@ export default function Navbar() {
 
           {/* LOADING */}
           {isLoading ? (
-            <div className="flex items-center gap-2">
-              <Spinner size="sm" />
-              <span className="text-xs text-gray-500">Loading...</span>
+            <div className="flex items-center gap-2 rounded-xl bg-slate-800/40 px-3 py-1.5 border border-slate-800">
+              <Spinner size="sm" color="current" className="text-cyan-400" />
+              <span className="text-xs font-medium text-slate-400">Loading...</span>
             </div>
 
           ) : !isLoggedIn ? (
-            <>
+            <div className="flex items-center gap-2">
               <Link href="/register">
-                <Button variant="bordered" size="sm">
+                <Button variant="light" size="sm" className="font-semibold text-slate-300 hover:bg-slate-800/60">
                   Register
                 </Button>
               </Link>
 
               <Link href="/login">
-                <Button size="sm" className="bg-cyan-600 text-white">
+                <Button size="sm" className="bg-cyan-500 font-bold text-slate-950 shadow-lg shadow-cyan-500/20 hover:bg-cyan-400 transition-all">
                   Login
                 </Button>
               </Link>
-
-            </>
+            </div>
 
           ) : (
             /* USER DROPDOWN */
             <div className="relative group">
-              <button className="flex items-center gap-3 rounded-full p-1 hover:bg-gray-50">
-                <Avatar>
+              <button className="flex items-center gap-3 rounded-full border border-slate-800 bg-slate-900/50 p-1.5 pr-4 shadow-sm transition-all hover:bg-slate-800/80">
+                <Avatar size="sm" className="h-8 w-8 ring-2 ring-cyan-500/30">
                   <Avatar.Image src={user?.image} alt={user?.name} />
-                  <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
+                  <Avatar.Fallback className="bg-cyan-950 font-bold text-cyan-400">{user?.name?.[0]}</Avatar.Fallback>
                 </Avatar>
 
-                <div className="hidden lg:block">
-                  <p className="text-sm font-bold">{user?.name}</p>
-                  <p className="text-xs text-gray-500">Passenger</p>
+                <div className="hidden text-left lg:block">
+                  <p className="text-xs font-bold text-slate-200">{user?.name}</p>
+                  <p className="text-[10px] font-medium text-slate-400">Passenger</p>
                 </div>
               </button>
 
-              <div className="absolute right-0 top-12 hidden w-56 flex-col rounded-xl border bg-white shadow-lg group-hover:flex">
-
-                <div className="border-b px-4 py-3">
-                  <p className="text-sm font-bold">{user?.name}</p>
+              {/* DROPDOWN MENU */}
+              <div className="absolute right-0 top-12 hidden w-56 flex-col rounded-xl border border-slate-800 bg-slate-900 p-1.5 shadow-2xl group-hover:flex">
+                <div className="px-3 py-2 border-b border-slate-800">
+                  <p className="text-xs font-medium text-slate-500">Signed in as</p>
+                  <p className="text-sm font-bold text-slate-200 truncate">{user?.name}</p>
                 </div>
 
                 <Link
                   href="/profile"
-                  className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-50"
+                  className="flex items-center gap-2 mt-1 rounded-lg px-3 py-2 text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100"
                 >
-                  <Person className="h-4 w-4" />
-                  Profile
+                  <Person className="h-4 w-4 text-slate-500" />
+                  My Profile
                 </Link>
 
                 <button
                   onClick={handleSignOut}
-                  className="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-red-500 hover:bg-red-50"
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-medium text-red-400 hover:bg-red-950/30 hover:text-red-300"
                 >
                   <ArrowRightFromSquare className="h-4 w-4" />
                   Logout
                 </button>
-
               </div>
             </div>
           )}
@@ -153,50 +157,57 @@ export default function Navbar() {
         {/* MOBILE BUTTON */}
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden p-2"
+          className="rounded-xl p-2 text-slate-300 hover:bg-slate-800/60 md:hidden"
         >
-          {open ? <Xmark /> : <Bars />}
+          {open ? <Xmark className="h-5 w-5" /> : <Bars className="h-5 w-5" />}
         </button>
 
       </div>
 
       {/* MOBILE MENU */}
       {open && (
-        <div className="border-t px-4 py-3 md:hidden">
+        <div className="border-t border-slate-800 bg-slate-950/95 px-4 py-4 backdrop-blur-md md:hidden animate-in fade-in slide-in-from-top-2 duration-200">
 
           {/* NAV LINKS */}
-          <div className="space-y-2">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="block rounded-lg px-3 py-2 text-sm hover:bg-gray-100"
-              >
-                {link.label}
-              </Link>
-            ))}
+          <div className="space-y-1">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className={`block rounded-xl px-4 py-2.5 text-sm font-semibold transition-all ${
+                    isActive
+                      ? "bg-slate-900 text-cyan-400 border border-slate-800"
+                      : "text-slate-400 hover:bg-slate-900/50 hover:text-slate-200"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
 
-          <div className="mt-4 border-t pt-3">
+          <div className="mt-4 border-t border-slate-800 pt-4">
 
             {/* LOADING */}
             {isLoading ? (
-              <div className="flex items-center gap-2">
-                <Spinner size="sm" />
-                <span className="text-xs text-gray-500">Loading...</span>
+              <div className="flex items-center justify-center gap-2 py-2">
+                <Spinner size="sm" className="text-cyan-400" />
+                <span className="text-xs text-slate-500">Loading...</span>
               </div>
 
             ) : !isLoggedIn ? (
-              <div className="space-y-2">
+              <div className="grid grid-cols-2 gap-2">
                 <Link href="/register" onClick={() => setOpen(false)}>
-                  <Button className="w-full" variant="bordered">
+                  <Button className="w-full font-semibold text-slate-300 border-slate-800 hover:bg-slate-900" variant="bordered">
                     Register
                   </Button>
                 </Link>
 
                 <Link href="/login" onClick={() => setOpen(false)}>
-                  <Button className="w-full bg-cyan-600 text-white">
+                  <Button className="w-full bg-cyan-500 font-bold text-slate-950 shadow-lg shadow-cyan-500/10">
                     Login
                   </Button>
                 </Link>
@@ -204,34 +215,32 @@ export default function Navbar() {
 
             ) : (
               <div className="space-y-2">
-
-                <div className="flex items-center gap-3 rounded-lg bg-cyan-50 px-3 py-2">
-                  <Avatar>
+                <div className="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-900/50 p-3">
+                  <Avatar size="sm">
                     <Avatar.Image src={user?.image} />
-                    <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
+                    <Avatar.Fallback className="bg-cyan-950 text-cyan-400">{user?.name?.[0]}</Avatar.Fallback>
                   </Avatar>
 
                   <div>
-                    <p className="text-sm font-bold">{user?.name}</p>
-                    <p className="text-xs text-gray-500">Passenger</p>
+                    <p className="text-sm font-bold text-slate-200">{user?.name}</p>
+                    <p className="text-xs font-medium text-slate-500">Passenger</p>
                   </div>
                 </div>
 
                 <Link
                   href="/profile"
                   onClick={() => setOpen(false)}
-                  className="block rounded-lg px-3 py-2 text-sm hover:bg-gray-100"
+                  className="block rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-400 hover:bg-slate-900"
                 >
-                  Profile
+                 My Profile
                 </Link>
 
                 <button
                   onClick={handleSignOut}
-                  className="w-full rounded-lg px-3 py-2 text-left text-sm text-red-500 hover:bg-red-50"
+                  className="w-full rounded-xl px-4 py-2.5 text-left text-sm font-semibold text-red-400 hover:bg-red-950/30"
                 >
                   Logout
                 </button>
-
               </div>
             )}
           </div>
