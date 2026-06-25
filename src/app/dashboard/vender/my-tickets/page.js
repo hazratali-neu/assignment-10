@@ -5,20 +5,15 @@ import { FaBus, FaTrain, FaShip, FaPlane, FaCar, FaCheckCircle } from "react-ico
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { getFetchAddticketData } from "@/lib/api/data";
 import { toast } from "react-toastify";
-import UpdateTicketModal from "@/components/UpdateTicketModal";
 import DeleteTicketModal from "@/components/DeleteTicketModal";
-
-
+import { useRouter } from "next/navigation"; 
 
 export default function MyTicketsClient() {
     const [addTicket, setAddTicket] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [isEditOpen, setIsEditOpen] = useState(false);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [selectedTicket, setSelectedTicket] = useState(null);
-
-    const TRANSPORT_TYPES = ["Bus", "Train", "Launch", "Flight", "Car"];
-    const PERKS = ["AC", "WiFi", "Food", "TV", "Charging Port", "Breakfast"];
+    const router = useRouter(); 
 
     const fetchTickets = () => {
         getFetchAddticketData()
@@ -36,41 +31,6 @@ export default function MyTicketsClient() {
         fetchTickets();
     }, []);
 
-    const handleEditClick = (ticket) => {
-        setSelectedTicket(ticket);
-        setIsEditOpen(true);
-    };
-
-    const onUpdateSubmit = async (data) => {
-        try {
-            const updatedTicket = {
-                ...data,
-                price: Number(data.price),
-                quantity: Number(data.quantity),
-            };
-
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/addticket/${selectedTicket._id}`, {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedTicket)
-            });
-
-            const result = await response.json();
-
-            if (result.modifiedCount > 0 || result.matchedCount > 0) {
-                toast.success("Ticket updated successfully!");
-                setIsEditOpen(false);
-                fetchTickets();
-            } else {
-                toast.info("No changes made.");
-                setIsEditOpen(false);
-            }
-        } catch (error) {
-            console.error(error);
-            toast.error("Failed to update ticket.");
-        }
-    };
-
     const handleDeleteClick = (ticket) => {
         setSelectedTicket(ticket);
         setIsDeleteOpen(true);
@@ -79,7 +39,7 @@ export default function MyTicketsClient() {
     const handleConfirmDelete = async () => {
         if (!selectedTicket) return;
         try {
-            const response = await fetch(`http://localhost:8000/api/addticket/${selectedTicket._id}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/addticket/${selectedTicket._id}`, {
                 method: "DELETE"
             });
 
@@ -206,7 +166,8 @@ export default function MyTicketsClient() {
 
                                 <div className="flex gap-3 w-full items-center">
                                     <button
-                                        onClick={() => !isRejected && handleEditClick(ticket)}
+                                        disabled={isRejected}
+                                        onClick={() => router.push(`/dashboard/vender/my-tickets/${ticket._id}`)}
                                         className={`flex-1 font-bold text-white h-9 rounded-lg shadow-sm text-sm ${
                                             isRejected
                                                 ? "bg-slate-300 text-slate-500 cursor-not-allowed shadow-none"
@@ -216,7 +177,8 @@ export default function MyTicketsClient() {
                                         Update
                                     </button>
                                     <button
-                                        onClick={() => !isRejected && handleDeleteClick(ticket)}
+                                        disabled={isRejected}
+                                        onClick={() => handleDeleteClick(ticket)}
                                         className={`font-bold h-9 rounded-lg border bg-white border-slate-800 text-slate-900 px-4 text-sm ${
                                             isRejected
                                                 ? "border-slate-200 text-slate-400 cursor-not-allowed"
@@ -232,17 +194,6 @@ export default function MyTicketsClient() {
                 })}
             </div>
 
-            {/* ✏️ Update Modal Component */}
-            <UpdateTicketModal
-                isOpen={isEditOpen}
-                setIsOpen={setIsEditOpen}
-                selectedTicket={selectedTicket}
-                onUpdateSubmit={onUpdateSubmit}
-                TRANSPORT_TYPES={TRANSPORT_TYPES}
-                PERKS={PERKS}
-            />
-
-            {/* 🗑️ Delete Modal Component */}
             <DeleteTicketModal
                 isOpen={isDeleteOpen}
                 setIsOpen={setIsDeleteOpen}
