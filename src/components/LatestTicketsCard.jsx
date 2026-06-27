@@ -1,7 +1,7 @@
 // src/components/LatestTickets.jsx
 import Link from "next/link";
 import { FaBus, FaTrain, FaShip, FaCar } from "react-icons/fa";
-import { MdConfirmationNumber } from "react-icons/md";
+// import { MdConfirmationNumber } from "react-icons/md";
 
 const transportIcon = {
   Bus: <FaBus />,
