@@ -8,7 +8,11 @@ const AllTickets = () => {
     const [searchFrom, setSearchFrom] = useState('');
     const [searchTo, setSearchTo] = useState('');
     const [transportType, setTransportType] = useState('All');
+    const [sortOrder, setSortOrder] = useState('default');
+    const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
+
+    const TICKETS_PER_PAGE = 8;
 
     const router = useRouter();
 
@@ -30,6 +34,28 @@ const AllTickets = () => {
         fetchTickets();
     }, [searchFrom, searchTo, transportType]);
 
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchFrom, searchTo, transportType, sortOrder]);
+
+    const getSortedTickets = () => {
+        if (sortOrder === 'low-to-high') {
+            return [...tickets].sort((a, b) => a.price - b.price);
+        }
+        if (sortOrder === 'high-to-low') {
+            return [...tickets].sort((a, b) => b.price - a.price);
+        }
+        return tickets;
+    };
+
+    const sortedTickets = getSortedTickets();
+
+    const totalPages = Math.ceil(sortedTickets.length / TICKETS_PER_PAGE);
+    const paginatedTickets = sortedTickets.slice(
+        (currentPage - 1) * TICKETS_PER_PAGE,
+        currentPage * TICKETS_PER_PAGE
+    );
+
     return (
         
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950 py-12 px-4 md:px-10 text-slate-100">
@@ -44,7 +70,7 @@ const AllTickets = () => {
                 </div>
 
                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/5 backdrop-blur-xl p-6 rounded-3xl border border-white/10 shadow-2xl mb-12">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 bg-white/5 backdrop-blur-xl p-6 rounded-3xl border border-white/10 shadow-2xl mb-12">
                     <div>
                         <label className="block text-xs font-bold text-teal-400 uppercase tracking-widest mb-2.5">Search From</label>
                         <input
@@ -78,6 +104,18 @@ const AllTickets = () => {
                             <option value="Air" className="bg-slate-900 text-white">Air</option>
                         </select>
                     </div>
+                    <div>
+                        <label className="block text-xs font-bold text-teal-400 uppercase tracking-widest mb-2.5">Sort By Price</label>
+                        <select
+                            value={sortOrder}
+                            onChange={(e) => setSortOrder(e.target.value)}
+                            className="w-full bg-slate-900/60 border border-slate-700/60 text-white px-4 py-3 rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-300 text-sm cursor-pointer shadow-inner"
+                        >
+                            <option value="default" className="bg-slate-900 text-white">Default</option>
+                            <option value="low-to-high" className="bg-slate-900 text-white">Price: Low to High</option>
+                            <option value="high-to-low" className="bg-slate-900 text-white">Price: High to Low</option>
+                        </select>
+                    </div>
                 </div>
 
                 {/* --- লোডিং স্পিনার --- */}
@@ -86,15 +124,16 @@ const AllTickets = () => {
                         <div className="animate-spin rounded-full h-14 w-14 border-t-2 border-b-2 border-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.5)]"></div>
                         <p className="text-slate-400 text-xs tracking-widest animate-pulse">SEARCHING FLEETS...</p>
                     </div>
-                ) : tickets.length === 0 ? (
+                ) : sortedTickets.length === 0 ? (
                     <div className="text-center text-slate-400 py-16 bg-white/5 backdrop-blur-md rounded-3xl border border-dashed border-slate-700/60 shadow-xl">
                         <p className="text-lg font-medium">No active tickets found matching your route.</p>
                         <p className="text-sm text-slate-500 mt-1">Try changing locations or transport filters.</p>
                     </div>
                 ) : (
                     /* --- আল্ট্রা-মডার্ন টিকিট গ্রিড লেআউট --- */
+                    <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {tickets.map((ticket) => (
+                        {paginatedTickets.map((ticket) => (
                             <div
                                 key={ticket._id}
                                 className="group bg-slate-900/80 rounded-3xl shadow-xl hover:shadow-2xl border border-slate-800 hover:border-emerald-500/40 overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 relative"
@@ -185,6 +224,42 @@ const AllTickets = () => {
                             </div>
                         ))}
                     </div>
+
+                    {/* --- পেজিনেশন কন্ট্রোল --- */}
+                    {totalPages > 1 && (
+                        <div className="flex justify-center items-center gap-2 mt-12">
+                            <button
+                                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                                disabled={currentPage === 1}
+                                className="px-4 py-2 rounded-xl text-sm font-bold bg-slate-800 text-slate-300 border border-slate-700 hover:border-emerald-500/50 hover:text-emerald-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
+                            >
+                                ← Prev
+                            </button>
+
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                                <button
+                                    key={page}
+                                    onClick={() => setCurrentPage(page)}
+                                    className={`w-10 h-10 rounded-xl text-sm font-bold border transition-all duration-200 ${
+                                        currentPage === page
+                                            ? 'bg-emerald-500 text-slate-950 border-emerald-500 shadow-[0_0_12px_rgba(52,211,153,0.3)]'
+                                            : 'bg-slate-800 text-slate-300 border-slate-700 hover:border-emerald-500/50 hover:text-emerald-400'
+                                    }`}
+                                >
+                                    {page}
+                                </button>
+                            ))}
+
+                            <button
+                                onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                                disabled={currentPage === totalPages}
+                                className="px-4 py-2 rounded-xl text-sm font-bold bg-slate-800 text-slate-300 border border-slate-700 hover:border-emerald-500/50 hover:text-emerald-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
+                            >
+                                Next →
+                            </button>
+                        </div>
+                    )}
+                    </>
                 )}
             </div>
         </div>
