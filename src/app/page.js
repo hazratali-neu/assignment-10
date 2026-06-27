@@ -1,14 +1,16 @@
+import AdvertisementSection from "@/components/AdvertisementSection";
 import BannerSlider from "@/components/BannerSlider";
-import LatestTicketsCard from "@/components/LatestTicketsCard";
-import { getFetchData } from "@/lib/api/data";
+// import LatestTicketsCard from "@/components/LatestTicketsCard";
+
 
 
 export default async function Home() {
-  const tickets=await getFetchData();
+
   return (
     <div>
       <BannerSlider></BannerSlider>
-       <LatestTicketsCard tickets={tickets}></LatestTicketsCard>
+      <AdvertisementSection></AdvertisementSection>
+       {/* <LatestTicketsCard></LatestTicketsCard> */}
     </div>
   );
 }

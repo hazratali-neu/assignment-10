@@ -47,7 +47,7 @@ export default function RegisterPage() {
         <div className="min-h-screen flex items-center justify-center bg-slate-950 py-12 px-4">
             <div className="w-full max-w-md">
                 
-                {/* কার্ড ব্যাকগ্রাউন্ড ডার্ক ও গ্লাস-মরফিজম করা হয়েছে */}
+               
                 <div className="bg-slate-900/60 border border-slate-800 backdrop-blur-xl rounded-3xl shadow-2xl shadow-cyan-500/5 px-8 py-10">
 
                     <div className="text-center mb-8">

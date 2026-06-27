@@ -67,12 +67,12 @@ export default function LoginPage() {
                                 name="email"
                                 type="email"
                                 required
-                                fullWidth // এটি ইনপুটকে জোরপূর্বক ফুল উইডথ (100%) করবে
+                                fullWidth 
                                 disabled={loading}
                                 placeholder="name@example.com"
                                 startContent={<FaEnvelope className="text-slate-500 text-sm mr-1" />}
                                 classNames={{
-                                    base: "w-full", // মেইন কন্টেইনার ফুল উইডথ
+                                    base: "w-full", 
                                     inputWrapper: "w-full bg-slate-950 hover:bg-slate-900 border-2 border-slate-800 focus-within:!border-cyan-500/70 transition-all h-12 rounded-xl"
                                 }}
                             />
@@ -86,12 +86,12 @@ export default function LoginPage() {
                                 name="password"
                                 type="password"
                                 required
-                                fullWidth // এটি ইনপুটকে জোরপূর্বক ফুল উইডথ (100%) করবে
+                                fullWidth 
                                 disabled={loading}
                                 placeholder="••••••••"
                                 startContent={<FaLock className="text-slate-500 text-sm mr-1" />}
                                 classNames={{
-                                    base: "w-full", // মেইন কন্টেইনার ফুল উইডথ
+                                    base: "w-full",
                                     inputWrapper: "w-full bg-slate-950 hover:bg-slate-900 border-2 border-slate-800 focus-within:!border-cyan-500/70 transition-all h-12 rounded-xl"
                                 }}
                             />

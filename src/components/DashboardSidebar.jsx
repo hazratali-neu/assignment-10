@@ -51,12 +51,12 @@ export default function DashboardSidebar() {
     }
 
     const role = session?.user?.role;
-    // যদি রোল 'vender' বা 'user' বা 'admin' এর বাইরে কিছু আসে, ব্যাকআপ হিসেবে খালি অ্যারে
+    
     const items = role ? navItems[role] : [];
 
     return (
         <>
-            {/* মোবাইল ও ট্যাবলেট মেনু বাটন */}
+           
             <div className="lg:hidden fixed top-4 left-4 z-50">
                 <button
                     onClick={() => setIsOpen(!isOpen)}
@@ -66,7 +66,7 @@ export default function DashboardSidebar() {
                 </button>
             </div>
 
-            {/* মোবাইল ব্যাকড্রপ ও ওভারলে */}
+            
             {isOpen && (
                 <div
                     className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
@@ -74,7 +74,7 @@ export default function DashboardSidebar() {
                 />
             )}
 
-            {/* মেইন সাইডবার */}
+        
             <aside className={`
                 fixed left-0 z-45 w-60 bg-gray-950 text-white flex flex-col py-5 px-4 border border-white/5 rounded-r-2xl lg:rounded-2xl
                 transition-transform duration-300 ease-in-out
@@ -90,7 +90,7 @@ export default function DashboardSidebar() {
 
                 {/* Nav Links */}
                 <nav className="flex flex-col gap-1 flex-1">
-                    {items.map(({ label, href, icon: Icon }) => {
+                    {items?.map(({ label, href, icon: Icon }) => {
                         const isActive = pathname === href;
                         return (
                             <Link

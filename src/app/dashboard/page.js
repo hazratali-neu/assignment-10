@@ -10,7 +10,7 @@ export default function DashboardPage() {
 
     useEffect(() => {
         if (!isPending && session?.user?.role) {
-            // ইউজারের রোল অনুযায়ী সরাসরি তার প্রোফাইল পেজে পাঠিয়ে দেবে
+           
             router.push(`/dashboard/${session.user.role}/profile`);
         }
     }, [session, isPending, router]);

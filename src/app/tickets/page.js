@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const AllTickets = () => {
     const [tickets, setTickets] = useState([]);
@@ -8,7 +9,7 @@ const AllTickets = () => {
     const [searchTo, setSearchTo] = useState('');
     const [transportType, setTransportType] = useState('All');
     const [loading, setLoading] = useState(true);
-    
+
     const router = useRouter();
 
     useEffect(() => {
@@ -30,11 +31,11 @@ const AllTickets = () => {
     }, [searchFrom, searchTo, transportType]);
 
     return (
-        // ব্যাকগ্রাউন্ডে একটি লাক্সারি সফট গ্রেডিয়েন্ট থিম দেওয়া হয়েছে
+        
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-950 py-12 px-4 md:px-10 text-slate-100">
             <div className="max-w-7xl mx-auto">
+
                 
-                {/* --- টাইটেল সেকশন উইথ গ্লো টেক্সট --- */}
                 <div className="text-center mb-12">
                     <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-sm">
                         Explore Available Tickets
@@ -42,7 +43,7 @@ const AllTickets = () => {
                     <p className="text-slate-400 mt-3 text-sm md:text-base font-light">Secure your journey with the premium experience</p>
                 </div>
 
-                {/* --- গ্লাস-মরফিজম (Glassmorphism) সার্চ ও ফিল্টার প্যানেল --- */}
+               
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/5 backdrop-blur-xl p-6 rounded-3xl border border-white/10 shadow-2xl mb-12">
                     <div>
                         <label className="block text-xs font-bold text-teal-400 uppercase tracking-widest mb-2.5">Search From</label>
@@ -94,25 +95,25 @@ const AllTickets = () => {
                     /* --- আল্ট্রা-মডার্ন টিকিট গ্রিড লেআউট --- */
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                         {tickets.map((ticket) => (
-                            <div 
-                                key={ticket._id} 
+                            <div
+                                key={ticket._id}
                                 className="group bg-slate-900/80 rounded-3xl shadow-xl hover:shadow-2xl border border-slate-800 hover:border-emerald-500/40 overflow-hidden flex flex-col justify-between transition-all duration-500 hover:-translate-y-2 relative"
                             >
                                 {/* গ্লো ইফেক্ট অন হোভার */}
                                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-3xl" />
-                                
+
                                 {/* ইমেজ ও ইন্টেলিজেন্ট ট্যাগ */}
                                 <div className="relative h-48 w-full bg-slate-950 overflow-hidden">
-                                    <img 
-                                        src={ticket.image || "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957"} 
-                                        alt={ticket.title} 
+                                    <img
+                                        src={ticket.image || "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957"}
+                                        alt={ticket.title}
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 brightness-[0.9]"
                                     />
                                     {/* ট্রাভেল টাইপ ব্যাজ অন ইমেজ */}
                                     <span className="absolute top-4 left-4 bg-slate-950/70 backdrop-blur-md text-teal-400 text-[11px] font-bold px-3 py-1 rounded-full border border-teal-500/30 uppercase tracking-widest">
                                         {ticket.transportType}
                                     </span>
-                                    
+
                                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent p-5">
                                         <h3 className="text-white font-extrabold text-xl truncate uppercase tracking-wide drop-shadow-md">
                                             {ticket.title}
@@ -122,7 +123,7 @@ const AllTickets = () => {
 
                                 {/* কার্ড বডি */}
                                 <div className="p-5 flex-1 flex flex-col justify-between relative z-10">
-                                    
+
                                     {/* রুট লেআউট (Premium Timeline look) */}
                                     <div className="flex items-center justify-between font-bold text-white text-sm tracking-wider bg-slate-950/40 border border-slate-800/80 px-4 py-2.5 rounded-2xl mb-4 shadow-inner">
                                         <span className="capitalize text-teal-300">{ticket.fromLocation}</span>
@@ -140,11 +141,10 @@ const AllTickets = () => {
                                             <span className="text-2xl font-black text-white bg-gradient-to-r from-white to-slate-300 bg-clip-text">৳{ticket.price}</span>
                                             <span className="text-[10px] text-slate-500 block">PER UNIT PRICE</span>
                                         </div>
-                                        <span className={`text-xs px-3 py-1.5 rounded-xl font-bold border ${
-                                            ticket.quantity > 0 
-                                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
-                                            : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
-                                        }`}>
+                                        <span className={`text-xs px-3 py-1.5 rounded-xl font-bold border ${ticket.quantity > 0
+                                                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                                                : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+                                            }`}>
                                             {ticket.quantity > 0 ? `${ticket.quantity} Available` : 'Sold Out'}
                                         </span>
                                     </div>
@@ -154,7 +154,7 @@ const AllTickets = () => {
                                         <div className="flex justify-between items-center">
                                             <span className="text-slate-500 font-medium">Departure Time</span>
                                             <span className="font-semibold text-slate-200 bg-slate-800 px-2.5 py-1 rounded-xl text-[11px] border border-slate-700/50">
-                                                {new Date(ticket.departureDateTime).toLocaleString([], {month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit'})}
+                                                {new Date(ticket.departureDateTime).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                             </span>
                                         </div>
                                     </div>
@@ -173,12 +173,13 @@ const AllTickets = () => {
                                     )}
 
                                     {/* ফ্ল্যাশ অ্যাকশন বাটন */}
-                                    <button 
-                                        onClick={() => router.push(`/ticket-details/${ticket._id}`)}
-                                        className="w-full text-center bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-slate-950 font-extrabold py-3 rounded-2xl shadow-[0_4px_20px_rgba(52,211,153,0.15)] hover:shadow-[0_4px_25px_rgba(52,211,153,0.3)] transition-all duration-300 text-sm tracking-wider uppercase"
-                                    >
-                                        See Details
-                                    </button>
+                                    <Link href={`/tickets/${ticket._id}`}>
+                                        <button
+                                            className="w-full text-center bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-slate-950 font-extrabold py-3 rounded-2xl shadow-[0_4px_20px_rgba(52,211,153,0.15)] hover:shadow-[0_4px_25px_rgba(52,211,153,0.3)] transition-all duration-300 text-sm tracking-wider uppercase"
+                                        >
+                                            See Details
+                                        </button>
+                                    </Link>
                                 </div>
 
                             </div>

@@ -37,7 +37,6 @@ export default function TicketDetailsUpdatePage({ params }) {
         }
     });
 
-    // ফর্মের লাইভ ভ্যালু ওয়াচ করা (সিলেক্ট অপশন ও চেকবক্সের ভ্যালু ধরে রাখার জন্য)
     const watchedTransportType = watch("transportType");
     const watchedPerks = watch("perks") || [];
 
@@ -57,7 +56,7 @@ export default function TicketDetailsUpdatePage({ params }) {
                         quantity: data.quantity || 0,
                         departureDateTime: data.departureDateTime || "",
                         perks: data.perks || [],
-                        // ডেটাবেজ থেকে আসা ভেন্ডর ডেটাই হুবহু এখানে বসবে
+                       
                         vendorName: data.vendorName || session?.user?.name || "",
                         vendorEmail: data.vendorEmail || session?.user?.email || ""
                     });
@@ -74,14 +73,11 @@ export default function TicketDetailsUpdatePage({ params }) {
     const onSubmit = async (data) => {
         try {
             let imageUrl = currentImageUrl;
-            
-            // নতুন ইমেজ সিলেক্ট করা হলে আপলোড হবে
+         
             if (data.image && data.image[0]) {
                 imageUrl = await uploadImage(data.image[0]);
             }
             delete data.image;
-
-            // ডাটাবেজে সাবমিট করার অবজেক্ট তৈরি
             const updatedTicketData = {
                 title: data.title,
                 fromLocation: data.fromLocation,

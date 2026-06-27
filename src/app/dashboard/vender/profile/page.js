@@ -6,7 +6,6 @@ import { User, Mail, Shield, Calendar } from "lucide-react";
 export default function ProfilePage() {
     const { data: session, isPending } = useSession();
 
-    // লোডিং স্টেট
     if (isPending) {
         return (
             <div className="flex items-center justify-center min-h-[70vh]">
@@ -14,8 +13,6 @@ export default function ProfilePage() {
             </div>
         );
     }
-
-    // ইউজার সেশন না থাকলে
     if (!session?.user) {
         return (
             <div className="flex items-center justify-center min-h-[70vh] px-4">
@@ -26,7 +23,7 @@ export default function ProfilePage() {
         );
     }
 
-    const { name, email, role, image } = session.user;
+    const { name, email, role, image } = session?.user;
 
     return (
         <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto w-full text-zinc-100 relative">

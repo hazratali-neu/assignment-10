@@ -4,11 +4,13 @@ import { Card, Chip } from "@heroui/react";
 import { FaBus, FaTrain, FaShip, FaPlane, FaCar, FaCheckCircle } from "react-icons/fa";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { getFetchAddticketData } from "@/lib/api/data";
+import { useSession } from "@/lib/auth-client"; // 
 import { toast } from "react-toastify";
 import DeleteTicketModal from "@/components/DeleteTicketModal";
 import { useRouter } from "next/navigation"; 
 
 export default function MyTicketsClient() {
+    const { data: session } = useSession(); 
     const [addTicket, setAddTicket] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -16,7 +18,11 @@ export default function MyTicketsClient() {
     const router = useRouter(); 
 
     const fetchTickets = () => {
-        getFetchAddticketData()
+        
+        if (!session?.user?.email) return;
+
+     
+        getFetchAddticketData(session.user.email)
             .then((data) => {
                 setAddTicket(data);
                 setLoading(false);
@@ -27,9 +33,12 @@ export default function MyTicketsClient() {
             });
     };
 
+  
     useEffect(() => {
-        fetchTickets();
-    }, []);
+        if (session?.user?.email) {
+            fetchTickets();
+        }
+    }, [session]);
 
     const handleDeleteClick = (ticket) => {
         setSelectedTicket(ticket);
@@ -165,10 +174,11 @@ export default function MyTicketsClient() {
                                 </div>
 
                                 <div className="flex gap-3 w-full items-center">
+                                    
                                     <button
                                         disabled={isRejected}
                                         onClick={() => router.push(`/dashboard/vender/my-tickets/${ticket._id}`)}
-                                        className={`flex-1 font-bold text-white h-9 rounded-lg shadow-sm text-sm ${
+                                        className={`flex-1 font-bold text-white h-9 rounded-lg shadow-sm text-sm transition-all ${
                                             isRejected
                                                 ? "bg-slate-300 text-slate-500 cursor-not-allowed shadow-none"
                                                 : "bg-gradient-to-r from-cyan-500 via-teal-500 to-blue-600 hover:opacity-90 cursor-pointer"
@@ -176,13 +186,15 @@ export default function MyTicketsClient() {
                                     >
                                         Update
                                     </button>
+                                    
+                         
                                     <button
                                         disabled={isRejected}
                                         onClick={() => handleDeleteClick(ticket)}
-                                        className={`font-bold h-9 rounded-lg border bg-white border-slate-800 text-slate-900 px-4 text-sm ${
+                                        className={`font-bold h-9 rounded-lg border text-sm transition-colors ${
                                             isRejected
-                                                ? "border-slate-200 text-slate-400 cursor-not-allowed"
-                                                : "hover:bg-red-50 hover:text-red-600 hover:border-red-600 transition-colors cursor-pointer"
+                                                ? "border-slate-200 text-slate-400 bg-slate-100 cursor-not-allowed"
+                                                : "bg-white border-slate-800 text-slate-900 hover:bg-red-50 hover:text-red-600 hover:border-red-600 cursor-pointer"
                                         }`}
                                     >
                                         Delete
