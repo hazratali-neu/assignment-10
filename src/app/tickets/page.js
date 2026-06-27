@@ -210,8 +210,6 @@ const AllTickets = () => {
                                             </div>
                                         </div>
                                     )}
-
-                                    {/* ফ্ল্যাশ অ্যাকশন বাটন */}
                                     <Link href={`/tickets/${ticket._id}`}>
                                         <button
                                             className="w-full text-center bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-slate-950 font-extrabold py-3 rounded-2xl shadow-[0_4px_20px_rgba(52,211,153,0.15)] hover:shadow-[0_4px_25px_rgba(52,211,153,0.3)] transition-all duration-300 text-sm tracking-wider uppercase"
