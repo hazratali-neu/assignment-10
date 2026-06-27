@@ -1,6 +1,7 @@
 import AdvertisementSection from "@/components/AdvertisementSection";
 import BannerSlider from "@/components/BannerSlider";
-// import LatestTicketsCard from "@/components/LatestTicketsCard";
+import LatestTickets from "@/components/Latesttickets";
+
 
 
 
@@ -10,7 +11,7 @@ export default async function Home() {
     <div>
       <BannerSlider></BannerSlider>
       <AdvertisementSection></AdvertisementSection>
-       {/* <LatestTicketsCard></LatestTicketsCard> */}
+      <LatestTickets></LatestTickets>
     </div>
   );
 }
