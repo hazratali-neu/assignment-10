@@ -10,7 +10,7 @@ export const uploadImage = async (imageFile) => {
   });
 
   const data = await response.json();
-  // console.log(data);
+
 
   if (data.success) {
     return data.data.url;
