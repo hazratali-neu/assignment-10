@@ -35,7 +35,8 @@ export async function POST(req) {
       quantity: validQuantity.toString(),
     };
 
-    const successUrl = `${origin}/dashboard/user/booked-tickets?success=true&bookingId=${bookingId}`;
+    const successUrl = `${origin}/payment-success?bookingId=${bookingId}`;
+    // const successUrl = `${origin}/dashboard/user/booked-tickets?success=true&bookingId=${bookingId}`;
     const cancelUrl = `${origin}/dashboard/user/booked-tickets?cancel=true`;
 
     const session = await stripe.checkout.sessions.create({

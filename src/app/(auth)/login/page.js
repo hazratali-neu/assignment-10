@@ -3,15 +3,22 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button, Input } from '@heroui/react';
-import { FaEnvelope, FaLock } from "react-icons/fa";
+import { FaEnvelope, FaGoogle, FaLock } from "react-icons/fa";
 import { ArrowRight } from 'lucide-react';
-import { signIn } from '@/lib/auth-client';
+import { authClient, signIn } from '@/lib/auth-client';
 import { toast } from 'react-toastify';
 import { useState } from "react";
 
 export default function LoginPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+
+    const handleSignIn = async () => {
+        const data = await authClient.signIn.social({
+            provider: "google",
+        });
+        console.log(data);
+    };
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -24,6 +31,7 @@ export default function LoginPage() {
             const { data, error } = await signIn.email({
                 email: loginData.email,
                 password: loginData.password,
+                callbackURL:'/dashboard'
             });
 
             if (error || !data) {
@@ -67,12 +75,12 @@ export default function LoginPage() {
                                 name="email"
                                 type="email"
                                 required
-                                fullWidth 
+                                fullWidth
                                 disabled={loading}
                                 placeholder="name@example.com"
                                 startContent={<FaEnvelope className="text-slate-500 text-sm mr-1" />}
                                 classNames={{
-                                    base: "w-full", 
+                                    base: "w-full",
                                     inputWrapper: "w-full bg-slate-950 hover:bg-slate-900 border-2 border-slate-800 focus-within:!border-cyan-500/70 transition-all h-12 rounded-xl"
                                 }}
                             />
@@ -86,7 +94,7 @@ export default function LoginPage() {
                                 name="password"
                                 type="password"
                                 required
-                                fullWidth 
+                                fullWidth
                                 disabled={loading}
                                 placeholder="••••••••"
                                 startContent={<FaLock className="text-slate-500 text-sm mr-1" />}
@@ -101,6 +109,16 @@ export default function LoginPage() {
                             <Link href="#" className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-all">
                                 Forgot password?
                             </Link>
+                        </div>
+
+                        <div>
+                            <button
+                                type="button"
+                                onClick={handleSignIn }
+                                className="w-full flex justify-center items-center gap-2  rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-white font-semibold shadow-lg transition-all duration-300 hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl active:scale-95"
+                            >
+                                <FaGoogle className="text-lg" /> Continue with Google
+                            </button>
                         </div>
 
                         <Button

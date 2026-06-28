@@ -109,8 +109,8 @@ const TicketDetails = () => {
                 bookingQuantity: quantityNum,
                 totalPrice: ticket.price * quantityNum,
                 userId: session.user.id,
-                userEmail: session.user.email,
-                userName: session.user.name,
+                userEmail: session?.user?.email,
+                userName: session?.user?.name,
                 vendorEmail: ticket.vendorEmail || "vendor@gmail.com",
                 status: "pending"
             };
