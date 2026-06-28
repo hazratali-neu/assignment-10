@@ -35,11 +35,11 @@ const AdvertisementSection = () => {
     }
 
     return (
-        <section className="py-20 bg-gradient-to-br from-slate-900 via-slate-950 to-black">
+        <section className="py-20 max-w-7xl mx-auto ">
             <div className="max-w-7xl mx-auto px-4">
 
                 <div className="text-center mb-12">
-                    <h2 className="text-4xl font-extrabold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                    <h2 className="text-5xl font-extrabold bg-gradient-to-r from-emerald-700 to-cyan-400 bg-clip-text text-transparent">
                         Advertisement Tickets
                     </h2>
 

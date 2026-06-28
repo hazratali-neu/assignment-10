@@ -47,7 +47,7 @@ const LatestTickets = () => {
     }
 
     return (
-        <section className="py-20 bg-gradient-to-b from-slate-950 via-slate-900 to-black">
+        <section className="py-20 max-w-7xl mx-auto bg-gradient-to-b from-slate-950 via-slate-900 to-black">
             <div className="max-w-7xl mx-auto px-4">
 
                 {/* Heading */}

@@ -49,7 +49,7 @@ export default function BannerSlider() {
   }, [emblaApi, onSelect]);
 
   return (
-    <div className="relative mt-25 overflow-hidden rounded-3xl mt-3" ref={emblaRef}>
+    <div className="relative  overflow-hidden rounded-3xl mt-3" ref={emblaRef}>
       <div className="flex">
         {banners.map((banner, index) => (
           <div key={index} className="relative min-w-0 flex-[0_0_100%]">
