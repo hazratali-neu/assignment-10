@@ -31,23 +31,39 @@ export default function AdvertiseTicketsPage() {
     }, []);
 
     const handleToggle = async (id, currentStatus) => {
+        const nextStatus = !currentStatus; 
         
-        const isCurrentlyAdvertised = !!currentStatus; 
-        const nextStatus = !isCurrentlyAdvertised; 
-        
+        // ১. ক্লিক করার সাথে সাথেই UI তে টগল করার জন্য লোকাল স্টেট আপডেট
+        setTickets((prevTickets) =>
+            prevTickets.map((ticket) =>
+                ticket._id === id ? { ...ticket, isAdvertised: nextStatus } : ticket
+            )
+        );
+
         try {
             const result = await toggleAdvertiseTicket(id, nextStatus);
 
-            
             if (result && result.success === false) {
                 toast.error(result.message || "Cannot advertise more than 6 tickets!");
+                // এরর হলে আবার আগের অবস্থায় ব্যাক করবে
+                setTickets((prevTickets) =>
+                    prevTickets.map((ticket) =>
+                        ticket._id === id ? { ...ticket, isAdvertised: currentStatus } : ticket
+                    )
+                );
                 return;
             }
+            
             toast.success(nextStatus ? "Added to advertisement!" : "Removed from advertisement.");
             
-            await loadTickets(); 
         } catch (error) {
             toast.error("Something went wrong!");
+            // ফেইল করলে আগের অবস্থায় ব্যাক করবে
+            setTickets((prevTickets) =>
+                prevTickets.map((ticket) =>
+                    ticket._id === id ? { ...ticket, isAdvertised: currentStatus } : ticket
+                )
+            );
             console.error(error);
         }
     };
@@ -98,7 +114,8 @@ export default function AdvertiseTicketsPage() {
                                                     : "bg-zinc-800 text-zinc-400 border border-zinc-700 hover:bg-zinc-700"
                                             }`}
                                         >
-                                            {ticket.isAdvertised ? "Advertised" : "Advertise"}
+                                            {/* এখানে Advertised এবং Unadvertised টগল হবে */}
+                                            {ticket.isAdvertised ? "Advertised" : "Unadvertised"}
                                         </Button>
                                     </td>
                                 </tr>

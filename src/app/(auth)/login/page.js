@@ -31,8 +31,9 @@ export default function LoginPage() {
             const { data, error } = await signIn.email({
                 email: loginData.email,
                 password: loginData.password,
-                callbackURL:'/dashboard'
+                callbackURL: '/dashboard'
             });
+          
 
             if (error || !data) {
                 toast.error(error?.message || "Login failed! Please check your credentials.");
@@ -42,8 +43,8 @@ export default function LoginPage() {
 
             if (data) {
                 toast.success("Login successful!");
-                router.push("/");
-                router.refresh();
+                    router.push("/");
+                    router.refresh();
             }
 
         } catch (err) {
@@ -114,7 +115,7 @@ export default function LoginPage() {
                         <div>
                             <button
                                 type="button"
-                                onClick={handleSignIn }
+                                onClick={handleSignIn}
                                 className="w-full flex justify-center items-center gap-2  rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-white font-semibold shadow-lg transition-all duration-300 hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl active:scale-95"
                             >
                                 <FaGoogle className="text-lg" /> Continue with Google

@@ -164,7 +164,7 @@ export default function Navbar() {
                 </div>
 
                 <Link
-                  href="/profile"
+                  href={`/dashboard/${session?.user?.role}/profile`}
                   className="flex items-center gap-2 mt-1 rounded-lg px-3 py-2 text-sm font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-100"
                 >
                   <Person className="h-4 w-4 text-slate-500" />
@@ -260,7 +260,7 @@ export default function Navbar() {
                 </div>
 
                 <Link
-                  href="/profile"
+                  href={`/dashboard/${session?.user?.role}/profile`}
                   onClick={() => setOpen(false)}
                   className="block rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-400 hover:bg-slate-900"
                 >

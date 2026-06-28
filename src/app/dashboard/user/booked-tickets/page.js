@@ -8,6 +8,7 @@ import { authClient } from "@/lib/auth-client";
 const BookingCard = ({ booking, onPayNow }) => {
     const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0, isExpired: false });
 
+    
     useEffect(() => {
         if (!booking?.departureDateTime) return;
 
@@ -52,7 +53,7 @@ const BookingCard = ({ booking, onPayNow }) => {
 
                 <div className="p-5">
                     <h3 className="text-xl font-black text-white uppercase tracking-wide mb-3">{booking.title}</h3>
-                    
+
                     <div className="bg-slate-950/50 border border-slate-800 p-3 rounded-xl mb-4 flex justify-between items-center text-xs font-bold">
                         <div>
                             <p className="text-[9px] text-slate-500 uppercase">From</p>
@@ -161,27 +162,27 @@ const MyBookedTickets = () => {
         if (success === 'true' && bookingId && bookings.length > 0) {
             const updateStatusAndSaveTransaction = async () => {
                 try {
-                 
+
                     await fetch(`${process.env.NEXT_PUBLIC_URL}/api/bookings/update-status`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ bookingId, status: 'paid' })
                     });
-                    
-                   
+
+
                     const randomTxId = "tx_" + Math.random().toString(36).substr(2, 9).toUpperCase();
-                    
-              
+
+
                     const currentBooking = bookings.find(b => b._id === bookingId);
 
-             
+
                     if (currentBooking && currentBooking.status !== 'paid') {
                         await fetch(`${process.env.NEXT_PUBLIC_URL}/api/transactions`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                                 transactionId: randomTxId,
-                                amount: currentBooking?.totalPrice || 0, 
+                                amount: currentBooking?.totalPrice || 0,
                                 ticketTitle: currentBooking?.title || "Ticket Booking",
                                 userEmail: session?.user?.email
                             })
@@ -189,6 +190,7 @@ const MyBookedTickets = () => {
 
                         toast.success("Payment successful! Transaction History Created.", { theme: "dark" });
                         fetchBookings(); 
+                       
                     }
                 } catch (err) {
                     console.error("Failed to process success redirection", err);
@@ -203,7 +205,7 @@ const MyBookedTickets = () => {
             const paymentPayload = {
                 bookingId: booking._id,
                 title: booking.title,
-                price: booking.unitPrice, 
+                price: booking.unitPrice,
                 quantity: booking.bookingQuantity
             };
 
@@ -236,7 +238,7 @@ const MyBookedTickets = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950/40 to-slate-950 py-10 px-4 md:px-8 text-slate-100">
             <ToastContainer position="top-right" autoClose={3000} />
-            
+
             <div className="max-w-6xl mx-auto">
                 <h1 className="text-3xl font-black uppercase tracking-wider text-white mb-2">My Booked Tickets</h1>
                 <p className="text-slate-400 text-xs mb-8">Manage and review all your fleet ticket booking sessions</p>
@@ -248,10 +250,10 @@ const MyBookedTickets = () => {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {bookings.map((booking) => (
-                            <BookingCard 
-                                key={booking._id} 
-                                booking={booking} 
-                                onPayNow={handlePayNowFromCard} 
+                            <BookingCard
+                                key={booking._id}
+                                booking={booking}
+                                onPayNow={handlePayNowFromCard}
                             />
                         ))}
                     </div>
