@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FaBusAlt } from "react-icons/fa";
 
 const routes = [
   {
@@ -9,7 +10,7 @@ const routes = [
     to: "Chattogram",
     price: 850,
     trips: "20+ Daily Trips",
-    icon: "🚌",
+    icon: <FaBusAlt />,
   },
   {
     id: 2,
@@ -17,7 +18,7 @@ const routes = [
     to: "Rajshahi",
     price: 650,
     trips: "15+ Daily Trips",
-    icon: "🚆",
+    icon: <FaBusAlt />,
   },
   {
     id: 3,
@@ -25,7 +26,7 @@ const routes = [
     to: "Sylhet",
     price: 700,
     trips: "18+ Daily Trips",
-    icon: "🚌",
+    icon: <FaBusAlt />,
   },
   {
     id: 4,
@@ -33,7 +34,7 @@ const routes = [
     to: "Cox's Bazar",
     price: 550,
     trips: "25+ Daily Trips",
-    icon: "🚌",
+    icon: <FaBusAlt />,
   },
   {
     id: 5,
@@ -41,7 +42,7 @@ const routes = [
     to: "Dhaka",
     price: 900,
     trips: "12+ Daily Trips",
-    icon: "🚆",
+    icon: <FaBusAlt />,
   },
   {
     id: 6,
@@ -49,22 +50,19 @@ const routes = [
     to: "Dhaka",
     price: 750,
     trips: "10+ Daily Trips",
-    icon: "⛴️",
+    icon: <FaBusAlt />,
   },
 ];
 
 const PopularRoutes = () => {
   return (
-    <section className="py-20 max-w-7xl mx-auto bg-gradient-to-b from-slate-950 via-slate-900 to-black">
+    <section className="py-10 max-w-7xl mx-auto">
       <div className="max-w-7xl mx-auto px-4">
 
         {/* Heading */}
         <div className="text-center mb-14">
-          <span className="uppercase tracking-[6px] text-emerald-400 text-sm font-bold">
-            Popular Destinations
-          </span>
 
-          <h2 className="text-4xl md:text-5xl font-extrabold mt-3 bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
+          <h2 className="text-5xl md:text-5xl font-extrabold mt-3 bg-gradient-to-r from-emerald-700 via-teal-600 to-cyan-700 bg-clip-text text-transparent">
             Popular Routes
           </h2>
 
@@ -121,11 +119,11 @@ const PopularRoutes = () => {
               </div>
 
               {/* Button */}
-             
-                <button className="w-full mt-8 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-black font-bold hover:scale-105 duration-300 shadow-lg cursor-pointer">
-                  Explore Tickets →
-                </button>
-              
+
+              <button className="w-full mt-8 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 text-black font-bold hover:scale-105 duration-300 shadow-lg cursor-pointer">
+                Explore Tickets →
+              </button>
+
 
             </div>
 

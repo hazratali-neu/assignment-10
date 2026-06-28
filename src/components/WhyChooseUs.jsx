@@ -40,14 +40,12 @@ const features = [
 
 const WhyChooseUs = () => {
   return (
-    <section className="py-20 max-w-7xl mx-auto bg-gradient-to-br from-slate-950 via-slate-900 to-black">
+    <section className="py-10 max-w-7xl mx-auto">
       <div className="max-w-7xl mx-auto px-5">
 
         {/* Heading */}
         <div className="text-center mb-14">
-          <span className="uppercase tracking-[5px] text-emerald-400 font-semibold text-sm">
-            Why Choose Us
-          </span>
+         
 
           <h2 className="mt-3 text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
             Better Travel Starts Here

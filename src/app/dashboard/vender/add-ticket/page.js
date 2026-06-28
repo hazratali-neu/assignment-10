@@ -12,15 +12,15 @@ import {
 } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { 
-    FaImage, 
-    FaTicketAlt, 
-    FaMapMarkerAlt, 
-    FaTag, 
-    FaLayerGroup, 
-    FaCalendarAlt, 
-    FaUser, 
-    FaEnvelope 
+import {
+    FaImage,
+    FaTicketAlt,
+    FaMapMarkerAlt,
+    FaTag,
+    FaLayerGroup,
+    FaCalendarAlt,
+    FaUser,
+    FaEnvelope
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 
@@ -30,7 +30,7 @@ const AddTicketPage = () => {
 
     const TRANSPORT_TYPES = ["Bus", "Train", "Launch", "Flight", "Car"];
     const PERKS = ["AC", "WiFi", "Food", "TV", "Charging Port", "Breakfast"];
-
+    const isFraudUser = session?.user?.isFraud === true || session?.user?.role === 'fraud';
     const {
         register,
         handleSubmit,
@@ -38,35 +38,44 @@ const AddTicketPage = () => {
     } = useForm();
 
     const onSubmit = async (data) => {
-        const imageFile = data.image?.[0];
-        const imageUrl = imageFile ? await uploadImage(imageFile) : null;
+    // ১. ক্লায়েন্ট সাইডে ফ্রড চেক (UI লেভেল)
+    if (isFraudUser) {
+        toast.error("Access Denied: Your account is restricted.");
+        return;
+    }
 
-        delete data?.image;
+    // ২. ইমেজ প্রসেসিং
+    const imageFile = data.image?.[0];
+    const imageUrl = imageFile ? await uploadImage(imageFile) : null;
 
-        const ticketData = {
-            ...data,
-            price: Number(data.price),
-            quantity: Number(data.quantity),
-            image: imageUrl,
-            vendorName: session?.user?.name,
-            vendorEmail: session?.user?.email,
-            verificationStatus: "pending",
-        };
-
-        const result = await addTicket(ticketData);
-
-        if (result?.insertedId) {
-            toast.success("Ticket added successfully...");
-            router.push("/dashboard/vender/my-tickets"); 
-        } else {
-            toast.error(result?.message || "Ticket not created...");
-        }
+    // ৩. ডাটা ফরম্যাটিং
+    const ticketData = {
+        ...data,
+        price: Number(data.price),
+        quantity: Number(data.quantity),
+        image: imageUrl,
+        vendorName: session?.user?.name,
+        vendorEmail: session?.user?.email,
+        verificationStatus: "pending",
     };
+
+    // ৪. API কল
+    const result = await addTicket(ticketData);
+
+    // ৫. রেসপন্স হ্যান্ডলিং
+    if (result && !result.message) { // যদি রেজাল্ট পাওয়া যায় এবং কোনো এরর মেসেজ না থাকে
+        toast.success("Ticket added successfully!");
+        router.push("/dashboard/vender/my-tickets");
+    } else {
+        toast.error(result?.message || "Something went wrong!");
+    }
+};
+  
 
     return (
         <div className="p-6 sm:p-10 max-w-5xl mx-auto w-full text-zinc-200 relative min-h-screen font-sans">
             <div className="max-w-3xl mx-auto relative">
-                
+
                 {/* ব্যাকগ্রাউন্ড গ্লো */}
                 <div className="absolute -top-20 -right-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-[120px] -z-10 pointer-events-none" />
                 <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-indigo-500/10 rounded-full blur-[120px] -z-10 pointer-events-none" />
@@ -388,10 +397,16 @@ const AddTicketPage = () => {
                                 <Button
                                     type="submit"
                                     isLoading={isSubmitting}
-                                    disabled={isSubmitting}
-                                    className="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-zinc-950 font-semibold h-12 px-10 rounded-xl shadow-[0_10px_20px_-10px_rgba(16,185,129,0.3)] transition-all duration-300 normal-case tracking-wide text-sm"
+                                    // বাটন ডিজেবল হবে যদি সাবমিটিং হয় অথবা ইউজার ফ্রড হয়
+                                    disabled={isSubmitting || isFraudUser}
+                                    className={`w-full sm:w-auto h-12 px-10 rounded-xl transition-all duration-300 font-semibold text-sm ${isFraudUser
+                                            ? "bg-zinc-800 text-zinc-500 cursor-not-allowed" // ফ্রড হলে গ্রে কালার
+                                            : "bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-zinc-950"
+                                        }`}
                                 >
-                                    {isSubmitting ? "Publishing..." : "Publish Asset Ticket"}
+                                    {isFraudUser
+                                        ? "Account Restricted" // বাটন টেক্সট বদলে যাবে
+                                        : isSubmitting ? "Publishing..." : "Publish Asset Ticket"}
                                 </Button>
                             </div>
                         </Form>
@@ -403,3 +418,4 @@ const AddTicketPage = () => {
 };
 
 export default AddTicketPage;
+

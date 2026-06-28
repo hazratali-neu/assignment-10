@@ -5,7 +5,7 @@ const BookedTicketCard = ({ ticket, onPayNow }) => {
     const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0, isExpired: false });
 
     useEffect(() => {
-        // রিকোয়ারমেন্ট: স্ট্যাটাস 'rejected' হলে কাউন্টডাউন রিমুভ হয়ে যাবে
+  
         if (!ticket?.departureDateTime || ticket.status === 'rejected') return;
 
         const timer = setInterval(() => {

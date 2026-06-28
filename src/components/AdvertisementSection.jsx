@@ -39,7 +39,7 @@ const AdvertisementSection = () => {
             <div className="max-w-7xl mx-auto px-4">
 
                 <div className="text-center mb-12">
-                    <h2 className="text-5xl font-extrabold bg-gradient-to-r from-emerald-700 to-cyan-400 bg-clip-text text-transparent">
+                    <h2 className="text-5xl md:text-5xl font-extrabold mt-3 bg-gradient-to-r from-emerald-700 via-teal-600 to-cyan-700 bg-clip-text text-transparent">
                         Advertisement Tickets
                     </h2>
 

@@ -64,7 +64,7 @@ export default function RevenueOverview() {
 
               
                 {stats?.chartData?.length === 0 ? (
-                    <div className="text-center py-20 bg-slate-900/40 border border-slate-800 rounded-2xl text-slate-500 font-medium">
+                    <div className="text-center py-20 bg-slate-900/40 border border-slate-800 rounded-2xl text-red-500 text-5xl font-medium">
                         No sales data available yet to generate charts.
                     </div>
                 ) : (

@@ -73,7 +73,7 @@ export default function RequestedBookings() {
                 <p className="text-slate-400 text-xs mb-8">Manage all ticket booking requests from customers.</p>
 
                 {requests.length === 0 ? (
-                    <p className="text-center text-slate-500 py-12">No booking requests found.</p>
+                    <p className="text-center text-red-500 text-5xl py-12">No booking requests found.</p>
                 ) : (
                     <div className="overflow-x-auto bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl">
                         <table className="w-full text-left border-collapse text-sm">

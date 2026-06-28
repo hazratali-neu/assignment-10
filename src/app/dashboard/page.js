@@ -9,8 +9,14 @@ export default function DashboardPage() {
     const router = useRouter();
 
     useEffect(() => {
+        
         if (!isPending && session?.user?.role) {
-           
+            
+            if(session?.user?.role==='fraud')
+            {
+                 router.push(`/dashboard/vender/profile`);
+                 return;
+            }
             router.push(`/dashboard/${session.user.role}/profile`);
         }
     }, [session, isPending, router]);

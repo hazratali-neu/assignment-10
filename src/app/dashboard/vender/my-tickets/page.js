@@ -7,21 +7,21 @@ import { getFetchAddticketData } from "@/lib/api/data";
 import { useSession } from "@/lib/auth-client"; // 
 import { toast } from "react-toastify";
 import DeleteTicketModal from "@/components/DeleteTicketModal";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 
 export default function MyTicketsClient() {
-    const { data: session } = useSession(); 
+    const { data: session } = useSession();
     const [addTicket, setAddTicket] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [selectedTicket, setSelectedTicket] = useState(null);
-    const router = useRouter(); 
+    const router = useRouter();
 
     const fetchTickets = () => {
-        
+
         if (!session?.user?.email) return;
 
-     
+
         getFetchAddticketData(session.user.email)
             .then((data) => {
                 setAddTicket(data);
@@ -33,7 +33,7 @@ export default function MyTicketsClient() {
             });
     };
 
-  
+
     useEffect(() => {
         if (session?.user?.email) {
             fetchTickets();
@@ -90,7 +90,7 @@ export default function MyTicketsClient() {
             </div>
 
             {addTicket.length === 0 && (
-                <p className="text-slate-500 text-center mt-10">No tickets found in your database!</p>
+                <p className="text-red-500 text-5xl text-center mt-10">No tickets found!</p>
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full">
@@ -159,43 +159,40 @@ export default function MyTicketsClient() {
                             <div className="mt-4 pt-3 border-t border-slate-100 flex flex-col gap-3">
                                 <div className="flex justify-end">
                                     <Chip
-                                        size="sm"
-                                        variant="bordered"
-                                        className={`font-black text-[10px] rounded px-2 py-0 h-5 ${
-                                            ticket.verificationStatus === "approved"
-                                                ? "text-emerald-600 border-emerald-300 bg-emerald-50/50"
+                                        size="md"
+                                        variant="solid"
+                                        className={`font-bold text-xs rounded-full px-3 py-1 ${ticket.verificationStatus === "approved"
+                                                ? "bg-emerald-100 text-emerald-700 border border-emerald-300"
                                                 : isRejected
-                                                    ? "text-red-600 border-red-300 bg-red-50/50"
-                                                    : "text-slate-700 border-slate-300 bg-slate-50"
-                                        }`}
+                                                    ? "bg-red-100 text-red-700 border border-red-300"
+                                                    : "bg-amber-100 text-amber-700 border border-amber-300"
+                                            }`}
                                     >
-                                        {ticket.verificationStatus || "pending"}
+                                        {ticket.verificationStatus || "Pending"}
                                     </Chip>
                                 </div>
 
-                                <div className="flex gap-3 w-full items-center">
-                                    
+                                <div className="flex justify-between gap-3 w-full items-center">
+
                                     <button
                                         disabled={isRejected}
                                         onClick={() => router.push(`/dashboard/vender/my-tickets/${ticket._id}`)}
-                                        className={`flex-1 font-bold text-white h-9 rounded-lg shadow-sm text-sm transition-all ${
-                                            isRejected
+                                        className={`w-23 font-bold text-white  h-9 rounded-lg shadow-sm text-sm transition-all ${isRejected
                                                 ? "bg-slate-300 text-slate-500 cursor-not-allowed shadow-none"
                                                 : "bg-gradient-to-r from-cyan-500 via-teal-500 to-blue-600 hover:opacity-90 cursor-pointer"
-                                        }`}
+                                            }`}
                                     >
                                         Update
                                     </button>
-                                    
-                         
+
+
                                     <button
                                         disabled={isRejected}
                                         onClick={() => handleDeleteClick(ticket)}
-                                        className={`font-bold h-9 rounded-lg border text-sm transition-colors ${
-                                            isRejected
+                                        className={`font-bold h-9 w-23 rounded-lg border text-sm transition-colors ${isRejected
                                                 ? "border-slate-200 text-slate-400 bg-slate-100 cursor-not-allowed"
                                                 : "bg-white border-slate-800 text-slate-900 hover:bg-red-50 hover:text-red-600 hover:border-red-600 cursor-pointer"
-                                        }`}
+                                            }`}
                                     >
                                         Delete
                                     </button>

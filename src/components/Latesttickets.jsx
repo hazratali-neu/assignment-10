@@ -47,17 +47,13 @@ const LatestTickets = () => {
     }
 
     return (
-        <section className="py-20 max-w-7xl mx-auto bg-gradient-to-b from-slate-950 via-slate-900 to-black">
+        <section className="py-5 max-w-7xl mx-auto">
             <div className="max-w-7xl mx-auto px-4">
 
                 {/* Heading */}
                 <div className="text-center mb-14">
 
-                    <span className="text-emerald-400 uppercase tracking-[6px] text-sm font-bold">
-                        Just Added
-                    </span>
-
-                    <h2 className="text-4xl md:text-5xl font-extrabold mt-2 bg-gradient-to-r from-emerald-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                    <h2 className="text-5xl md:text-5xl font-extrabold mt-3 bg-gradient-to-r from-emerald-700 via-teal-600 to-cyan-700 bg-clip-text text-transparent">
                         Latest Tickets
                     </h2>
 
