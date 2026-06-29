@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <div>
-      {/* <Hero></Hero> */}
+      <Hero></Hero>
       <AdvertisementSection></AdvertisementSection>
       <LatestTickets></LatestTickets>
       <PopularRoutes></PopularRoutes>
