@@ -133,20 +133,23 @@ export default function Hero() {
                 </div>
               ))}
             </div>
-
-            {/* CTA buttons */}
             <div className="flex flex-col sm:flex-row gap-3 mb-9 sm:mb-10">
-              <Link href="/tickets" className="w-full sm:w-auto">
-                <button className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white px-7 py-4 rounded-2xl font-semibold text-[15px] shadow-lg shadow-blue-200 transition-all duration-200">
-                  Book Now
-                  <ArrowRight size={17} className="transition-transform duration-200 group-hover:translate-x-1" />
-                </button>
+
+              <Link
+                href="/tickets"
+                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white px-7 py-4 rounded-2xl font-semibold text-[15px] shadow-lg shadow-blue-200 transition-all duration-200 text-center"
+              >
+                Book Now
+                <ArrowRight size={17} className="transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
-              <Link href="" className="w-full sm:w-auto">
-                <button className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 active:scale-95 text-blue-600 border-2 border-blue-200 hover:border-blue-400 px-7 py-4 rounded-2xl font-semibold text-[15px] transition-all duration-200">
-                  Learn More
-                </button>
+
+              <Link
+                href="#"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 active:scale-95 text-blue-600 border-2 border-blue-200 hover:border-blue-400 px-7 py-4 rounded-2xl font-semibold text-[15px] transition-all duration-200 text-center"
+              >
+                Learn More
               </Link>
+
             </div>
 
             {/* Stats strip */}
