@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -263,4 +263,16 @@ const MyBookedTickets = () => {
     );
 };
 
-export default MyBookedTickets;
+// export default MyBookedTickets;
+// একদম শেষে এটি যোগ করুন:
+export default function SuspenseWrapper() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-slate-950 flex justify-center items-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-400"></div>
+            </div>
+        }>
+            <MyBookedTickets />
+        </Suspense>
+    );
+}
