@@ -71,7 +71,7 @@ const ManageUsers = () => {
                                 <button className="bg-indigo-600 px-3 py-1 rounded text-xs" onClick={() => handleUpdateRole(user._id, 'vendor')}>Make Vendor</button>
 
                                 {/* Mark as Fraud Button (Only for Vendors) */}
-                                {(user.role === 'vender' || user.role === 'vender') && (
+                                {(user.role === 'vendor' || user.role === 'vender') && (
                                     <button className="bg-rose-600 px-3 py-1 rounded text-xs" onClick={() => openFraudModal(user)}>Mark as Fraud</button>
                                 )}
                             </td>
