@@ -1,5 +1,6 @@
+
 Project Name:
-# online Ticket Platform
+online Ticket Platform
 
 ## Purpose:
 Ticket Bari is an online ticket booking platform where users can search, book, and pay for transport tickets. Vendors can publish tickets, while admins manage users, vendors, and ticket verification.
